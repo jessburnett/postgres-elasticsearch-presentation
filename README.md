@@ -9,6 +9,29 @@ This was tested with enwiki-20161020-pages-articles.xml. This is a 56GB dump of 
 Elastic Search
 --------------
 
+Elastic Search is run within a docker container that is configured by docker compose.
+
+### Starting
+
+```
+docker-compose -f elasticsearch/docker-compose.yml up -d
+```
+
+### Stopping
+
+```
+docker-compose -f elasticsearch/docker-compose.yml down
+```
+
+### Clearing Containers and Volumes
+
+```
+docker-compose -f elasticsearch/docker-compose.yml rm
+docker volume rm elasticsearch_esdata
+```
+
+### Problems
+
 The elastic search docker compose configuration may fail to start with the following error:
 
 ```
