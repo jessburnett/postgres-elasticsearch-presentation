@@ -1,6 +1,11 @@
 Search Test with Postgres and Elastic Search
 ============================================
 
+Wikipedia XML
+-------------
+
+This was tested with enwiki-20161020-pages-articles.xml. This is a 56GB dump of every article from the English language Wikipedia.
+
 Elastic Search
 --------------
 
