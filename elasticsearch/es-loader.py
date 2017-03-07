@@ -5,7 +5,7 @@ import itertools
 from xml.etree import ElementTree
 from elasticsearch_dsl import DocType, Text
 from elasticsearch_dsl.connections import connections
-from elasticsearch.helpers import bulk
+from elasticsearch.helpers import parallel_bulk
 
 def main():
     parser = argparse.ArgumentParser(description='Load Wikipedia XML into Elastic Search.')
@@ -15,7 +15,9 @@ def main():
     connections.create_connection(hosts=['localhost'])
     ElasticDocument.init()
 
-    bulk(connections.get_connection(), XmlConsumer(args.filenames))
+    for success, info in parallel_bulk(connections.get_connection(), XmlConsumer(args.filenames)):
+        if not success:
+            print('A document failed:', info)
 
 def node_iterator(filenames):
     for filename in filenames:
