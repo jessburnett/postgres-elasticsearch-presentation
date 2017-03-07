@@ -22,3 +22,41 @@ sysctl -w vm.max_map_count=262144
 ```
 
 You can find more details in the [elastic search docker compose documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html).
+
+Elastic Search Loader
+---------------------
+
+This is a script that can load the Wikipedia XML into Elastic Search. This requires the elasticsearch_dsl python module. This was developed for python 3.6.0.
+
+### Usage
+
+```
+python3 elasticsearch/es-loader.py enwiki-20161020-pages-articles.xml
+```
+
+### Requirements
+
+You can use pyenv and virtualenv to install this in a compartmentalized way.
+
+https://github.com/pyenv/pyenv
+
+```
+curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+```
+
+You need to make sure that you have something like the following in your bashrc or zshrc:
+
+```
+export PATH="${HOME}/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+Then in a new terminal session you can run:
+
+```
+pyenv install 3.6.0
+pyenv virtualenv 3.6.0 pg-es-venv
+pyenv activate pg-es-venv
+pip install -r elasticsearch/requirements.txt
+```
