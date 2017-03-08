@@ -5,7 +5,9 @@ import itertools
 from xml.etree import ElementTree
 from elasticsearch_dsl import DocType, Text
 from elasticsearch_dsl.connections import connections
-from elasticsearch.helpers import parallel_bulk
+from elasticsearch.helpers import bulk
+
+CHUNK_SIZE=250 * 1000
 
 def main():
     parser = argparse.ArgumentParser(description='Load Wikipedia XML into Elastic Search.')
@@ -15,14 +17,21 @@ def main():
     connections.create_connection(hosts=['localhost'])
     ElasticDocument.init()
 
-    for success, info in parallel_bulk(connections.get_connection(), XmlConsumer(args.filenames)):
-        if not success:
-            print('A document failed:', info)
+    for chunk in grouper(CHUNK_SIZE, XmlConsumer(filenames)):
+        bulk(connections.get_connection(), chunk)
 
 def node_iterator(filenames):
     for filename in filenames:
         for event, element in ElementTree.iterparse(filename):
             yield element
+
+def grouper(n, iterable):
+    it = iter(iterable)
+    while True:
+        chunk = itertools.islice(it, n)
+        if not chunk:
+            return
+        yield chunk
 
 class XmlConsumer:
     def __init__(self, filenames):
@@ -51,6 +60,7 @@ class XmlConsumer:
                 title = element.text
             elif self.is_text(element):
                 yield self.make_document(id, title, element.text)
+            element.clear()
 
 class ElasticDocument(DocType):
     title = Text()
