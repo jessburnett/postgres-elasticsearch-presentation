@@ -3,7 +3,7 @@ package com.franglen.dto;
 import lombok.Data;
 
 @Data
-public class WikipediaEntry {
+public class WikipediaDocument {
 
     private String id;
     private String title;
