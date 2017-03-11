@@ -45,51 +45,75 @@ public class DocumentReader {
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes atts) {
-            switch (localName) {
+            switch (qName) {
                 case "page":
                     checkState(state == HandlerState.OUTSIDE_PAGE);
                     state = HandlerState.PAGE;
+                    document = WikipediaDocument.builder();
                     return;
                 case "id":
+                    if (state == HandlerState.OTHER) {
+                        return;
+                    }
                     checkState(state == HandlerState.PAGE);
                     state = HandlerState.ID;
                     buffer.reset();
                     return;
                 case "title":
+                    if (state == HandlerState.OTHER) {
+                        return;
+                    }
                     checkState(state == HandlerState.PAGE);
                     state = HandlerState.TITLE;
                     buffer.reset();
                     return;
                 case "text":
+                    if (state == HandlerState.OTHER) {
+                        return;
+                    }
                     checkState(state == HandlerState.PAGE);
                     state = HandlerState.BODY;
                     buffer.reset();
+                    return;
+                case "revision":
+                    checkState(state == HandlerState.PAGE);
+                    state = HandlerState.OTHER;
                     return;
             }
         }
 
         @Override
         public void endElement(String uri, String localName, String qName) {
-            switch (localName) {
+            switch (qName) {
                 case "page":
                     checkState(state == HandlerState.PAGE);
                     state = HandlerState.OUTSIDE_PAGE;
                     gateway.accept(document.build());
                     return;
                 case "id":
-                    checkState(state == HandlerState.ID);
+                    if (state != HandlerState.ID) {
+                        return;
+                    }
                     state = HandlerState.PAGE;
                     document.id(buffer.toString());
                     return;
                 case "title":
-                    checkState(state == HandlerState.PAGE);
-                    state = HandlerState.TITLE;
+                    if (state != HandlerState.TITLE) {
+                        return;
+                    }
+                    state = HandlerState.PAGE;
                     document.title(buffer.toString());
                     return;
                 case "text":
-                    checkState(state == HandlerState.PAGE);
-                    state = HandlerState.BODY;
+                    if (state != HandlerState.BODY) {
+                        return;
+                    }
+                    state = HandlerState.PAGE;
                     document.body(buffer.toString());
+                    return;
+                case "revision":
+                    checkState(state == HandlerState.OTHER);
+                    state = HandlerState.PAGE;
                     return;
             }
         }
@@ -106,7 +130,8 @@ public class DocumentReader {
         PAGE,
         ID,
         TITLE,
-        BODY;
+        BODY,
+        OTHER;
     }
 
 }
