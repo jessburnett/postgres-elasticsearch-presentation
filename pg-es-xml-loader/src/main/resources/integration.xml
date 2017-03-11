@@ -29,8 +29,8 @@
         </int:splitter>
 
         <int:payload-type-router>
-            <int:mapping value="com.franglen.dto.ElasticsearchDocument" channel="loader.channel.es" />
-            <int:mapping value="com.franglen.dto.PostgresDocument" channel="loader.channel.postgres" />
+            <int:mapping type="com.franglen.dto.ElasticsearchDocument" channel="loader.channel.es" />
+            <int:mapping type="com.franglen.dto.PostgresDocument" channel="loader.channel.postgres" />
         </int:payload-type-router>
     </int:chain>
 
@@ -40,14 +40,10 @@
     -->
     <int:channel id="loader.channel.es">
         <int:queue capacity="500" />
-        <int:dispatcher task-executor="loader.executor.es" />
     </int:channel>
 
-    <task:executor id="loader.executor.es"
-            pool-size="2" />
-
-    <int:outbound-channel-adapter channel="loader.channel.es" method="save">
-        <bean class="com.franglen.repository.ElasticsearchDocumentRepository" />
+    <int:outbound-channel-adapter channel="loader.channel.es" method="save" ref="elasticsearchDocumentRepository">
+        <int:poller fixed-rate="50" />
     </int:outbound-channel-adapter>
 
     <!--
@@ -56,14 +52,10 @@
     -->
     <int:channel id="loader.channel.postgres">
         <int:queue capacity="500" />
-        <int:dispatcher task-executor="loader.executor.postgres" />
     </int:channel>
 
-    <task:executor id="loader.executor.postgres"
-            pool-size="2" />
-
-    <int:outbound-channel-adapter channel="loader.channel.postgres" method="save">
-        <bean class="com.franglen.repository.PostgresDocumentRepository" />
+    <int:outbound-channel-adapter channel="loader.channel.postgres" method="save" ref="postgresDocumentRepository">
+        <int:poller fixed-rate="50" />
     </int:outbound-channel-adapter>
 
 </beans>
