@@ -20,6 +20,10 @@ public class PgEsXmlLoaderApplication implements CommandLineRunner {
     }
 
     public void run(String... args) throws Exception {
+        if (args.length < 1) {
+            return;
+        }
+
         reader.read(args[0]);
     }
 
