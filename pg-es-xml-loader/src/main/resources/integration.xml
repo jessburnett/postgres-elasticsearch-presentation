@@ -13,28 +13,18 @@
         http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!--
-      Documents arrive through the input gateway
+      Documents arrive through the input gateway.
+      The calling thread will be blocked if either writer cannot keep up with the rate of submission.
     -->
     <int:gateway id="loader.gateway"
             service-interface="com.franglen.service.DocumentGateway"
             default-request-channel="loader.channel.xml" />
 
     <!--
-      They are buffered in a queue.
-      This prevents the sender from overloading the system by submitting more
-      documents than we can keep up with.
-    -->
-    <int:channel id="loader.channel.xml">
-        <int:queue capacity="500" />
-        <int:dispatcher task-executor="loader.executor.xml" />
-    </int:channel>
-
-    <task:executor id="loader.executor.xml"
-            pool-size="2" />
-
-    <!--
       The documents are transformed into repository specific forms and passed to the repository queue.
     -->
+    <int:channel id="loader.channel.xml" />
+
     <int:chain input-channel="loader.channel.xml">
         <int:splitter>
             <bean class="com.franglen.service.DocumentMapper"/>
