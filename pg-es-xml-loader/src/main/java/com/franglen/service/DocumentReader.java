@@ -47,37 +47,19 @@ public class DocumentReader {
         public void startElement(String uri, String localName, String qName, Attributes atts) {
             switch (qName) {
                 case "page":
-                    checkState(state == HandlerState.OUTSIDE_PAGE);
-                    state = HandlerState.PAGE;
-                    document = WikipediaDocument.builder();
+                    startPage();
                     return;
                 case "id":
-                    if (state == HandlerState.OTHER) {
-                        return;
-                    }
-                    checkState(state == HandlerState.PAGE);
-                    state = HandlerState.ID;
-                    buffer.reset();
+                    startId();
                     return;
                 case "title":
-                    if (state == HandlerState.OTHER) {
-                        return;
-                    }
-                    checkState(state == HandlerState.PAGE);
-                    state = HandlerState.TITLE;
-                    buffer.reset();
+                    startTitle();
                     return;
                 case "text":
-                    if (state == HandlerState.OTHER) {
-                        return;
-                    }
-                    checkState(state == HandlerState.PAGE);
-                    state = HandlerState.BODY;
-                    buffer.reset();
+                    startText();
                     return;
                 case "revision":
-                    checkState(state == HandlerState.PAGE);
-                    state = HandlerState.OTHER;
+                    startOther();
                     return;
             }
         }
@@ -86,41 +68,119 @@ public class DocumentReader {
         public void endElement(String uri, String localName, String qName) {
             switch (qName) {
                 case "page":
-                    checkState(state == HandlerState.PAGE);
-                    state = HandlerState.OUTSIDE_PAGE;
-                    gateway.accept(document.build());
+                    endPage();
                     return;
                 case "id":
-                    if (state != HandlerState.ID) {
-                        return;
-                    }
-                    state = HandlerState.PAGE;
-                    document.id(buffer.toString());
+                    endId();
                     return;
                 case "title":
-                    if (state != HandlerState.TITLE) {
-                        return;
-                    }
-                    state = HandlerState.PAGE;
-                    document.title(buffer.toString());
+                    endTitle();
                     return;
                 case "text":
-                    if (state != HandlerState.BODY) {
-                        return;
-                    }
-                    state = HandlerState.PAGE;
-                    document.body(buffer.toString());
+                    endText();
                     return;
                 case "revision":
-                    checkState(state == HandlerState.OTHER);
-                    state = HandlerState.PAGE;
+                    endOther();
                     return;
             }
         }
 
         @Override
         public void characters(char[] ch, int start, int length) {
-            buffer.write(ch, start, length);
+            switch(state) {
+                case ID:
+                case TITLE:
+                case BODY:
+                    buffer.write(ch, start, length);
+                    break;
+                default:
+            }
+        }
+
+        private void startPage() {
+            checkState(state == HandlerState.OUTSIDE_PAGE);
+
+            state = HandlerState.PAGE;
+            document = WikipediaDocument.builder();
+        }
+
+        private void endPage() {
+            checkState(state == HandlerState.PAGE);
+
+            state = HandlerState.OUTSIDE_PAGE;
+            gateway.accept(document.build());
+        }
+
+        private void startId() {
+            if (state == HandlerState.OTHER) {
+                return;
+            }
+            checkState(state == HandlerState.PAGE);
+
+            state = HandlerState.ID;
+            buffer.reset();
+        }
+
+        private void endId() {
+            if (state == HandlerState.OTHER) {
+                return;
+            }
+            checkState(state == HandlerState.ID);
+
+            state = HandlerState.PAGE;
+            document.id(buffer.toString());
+        }
+
+        private void startTitle() {
+            if (state == HandlerState.OTHER) {
+                return;
+            }
+            checkState(state == HandlerState.PAGE);
+
+            state = HandlerState.TITLE;
+            buffer.reset();
+        }
+
+        private void endTitle() {
+            if (state == HandlerState.OTHER) {
+                return;
+            }
+            checkState(state == HandlerState.TITLE);
+
+            state = HandlerState.PAGE;
+            document.title(buffer.toString());
+        }
+
+        private void startText() {
+            if (state == HandlerState.OTHER) {
+                return;
+            }
+            checkState(state == HandlerState.PAGE);
+
+            state = HandlerState.BODY;
+            buffer.reset();
+        }
+
+        private void endText() {
+            if (state == HandlerState.OTHER) {
+                return;
+            }
+            checkState(state == HandlerState.BODY);
+
+            state = HandlerState.PAGE;
+            document.body(buffer.toString());
+        }
+
+        private void startOther() {
+            checkState(state == HandlerState.PAGE);
+
+            state = HandlerState.OTHER;
+        }
+
+        private void endOther() {
+            checkState(state == HandlerState.OTHER);
+
+            state = HandlerState.PAGE;
         }
 
     }
