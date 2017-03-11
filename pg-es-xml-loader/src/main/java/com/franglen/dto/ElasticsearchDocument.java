@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
 @Document(indexName = "wikipedia")
-public class ElasticSearchDocument {
+public class ElasticsearchDocument {
 
     @Id private String id;
     private String title;
