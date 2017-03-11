@@ -13,7 +13,7 @@ import lombok.Data;
 public class PostgresDocument {
 
     @Id private String id;
-    @Column(nullable = false) private String title;
-    @Column(nullable = false) private String body;
+    @Column(nullable = false, columnDefinition = "TEXT") private String title;
+    @Column(nullable = false, columnDefinition = "TEXT") private String body;
 
 }
