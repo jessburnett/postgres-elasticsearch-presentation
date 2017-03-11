@@ -56,10 +56,10 @@ public class DocumentReader {
                     startTitle();
                     return;
                 case "text":
-                    startText();
+                    startBody();
                     return;
                 case "revision":
-                    startOther();
+                    startRevision();
                     return;
             }
         }
@@ -77,10 +77,10 @@ public class DocumentReader {
                     endTitle();
                     return;
                 case "text":
-                    endText();
+                    endBody();
                     return;
                 case "revision":
-                    endOther();
+                    endRevision();
                     return;
             }
         }
@@ -112,7 +112,7 @@ public class DocumentReader {
         }
 
         private void startId() {
-            if (state == HandlerState.OTHER) {
+            if (state == HandlerState.REVISION) {
                 return;
             }
             checkState(state == HandlerState.PAGE);
@@ -122,7 +122,7 @@ public class DocumentReader {
         }
 
         private void endId() {
-            if (state == HandlerState.OTHER) {
+            if (state == HandlerState.REVISION) {
                 return;
             }
             checkState(state == HandlerState.ID);
@@ -132,7 +132,7 @@ public class DocumentReader {
         }
 
         private void startTitle() {
-            if (state == HandlerState.OTHER) {
+            if (state == HandlerState.REVISION) {
                 return;
             }
             checkState(state == HandlerState.PAGE);
@@ -142,7 +142,7 @@ public class DocumentReader {
         }
 
         private void endTitle() {
-            if (state == HandlerState.OTHER) {
+            if (state == HandlerState.REVISION) {
                 return;
             }
             checkState(state == HandlerState.TITLE);
@@ -151,34 +151,28 @@ public class DocumentReader {
             document.title(buffer.toString());
         }
 
-        private void startText() {
-            if (state == HandlerState.OTHER) {
-                return;
-            }
-            checkState(state == HandlerState.PAGE);
+        private void startBody() {
+            checkState(state == HandlerState.REVISION);
 
             state = HandlerState.BODY;
             buffer.reset();
         }
 
-        private void endText() {
-            if (state == HandlerState.OTHER) {
-                return;
-            }
+        private void endBody() {
             checkState(state == HandlerState.BODY);
 
-            state = HandlerState.PAGE;
+            state = HandlerState.REVISION;
             document.body(buffer.toString());
         }
 
-        private void startOther() {
+        private void startRevision() {
             checkState(state == HandlerState.PAGE);
 
-            state = HandlerState.OTHER;
+            state = HandlerState.REVISION;
         }
 
-        private void endOther() {
-            checkState(state == HandlerState.OTHER);
+        private void endRevision() {
+            checkState(state == HandlerState.REVISION);
 
             state = HandlerState.PAGE;
         }
@@ -191,7 +185,7 @@ public class DocumentReader {
         ID,
         TITLE,
         BODY,
-        OTHER;
+        REVISION;
     }
 
 }
