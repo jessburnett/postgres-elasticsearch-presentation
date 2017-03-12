@@ -19,16 +19,16 @@ services:
     cap_add:
       - IPC_LOCK
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - ./data/esdata:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
   postgres:
     image: postgres:9.6
     container_name: postgres
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
-
-volumes:
-  esdata:
-    driver: local
