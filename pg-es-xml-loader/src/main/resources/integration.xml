@@ -39,12 +39,24 @@
       This queue will stop the conversion if the writer cannot keep up.
     -->
     <int:channel id="loader.channel.es">
-        <int:queue capacity="500" />
+        <int:queue capacity="10000" />
     </int:channel>
 
-    <int:outbound-channel-adapter channel="loader.channel.es" method="save">
-        <bean class="com.franglen.service.ElasticsearchDocumentWriter"/>
+    <int:aggregator
+            input-channel="loader.channel.es"
+            output-channel="loader.channel.es.bulk"
+            send-partial-result-on-expiry="true"
+            correlation-strategy-expression="1"
+            release-strategy-expression="size() == 5000"
+            expire-groups-upon-completion="true"
+            group-timeout="1000">
         <int:poller fixed-rate="50" />
+    </int:aggregator>
+
+    <int:channel id="loader.channel.es.bulk" />
+
+    <int:outbound-channel-adapter channel="loader.channel.es.bulk" method="save">
+        <bean class="com.franglen.service.ElasticsearchDocumentWriter" />
     </int:outbound-channel-adapter>
 
     <!--
@@ -52,12 +64,24 @@
       This queue will stop the conversion if the writer cannot keep up.
     -->
     <int:channel id="loader.channel.postgres">
-        <int:queue capacity="500" />
+        <int:queue capacity="10000" />
     </int:channel>
 
-    <int:outbound-channel-adapter channel="loader.channel.postgres" method="save">
-        <bean class="com.franglen.service.PostgresDocumentWriter"/>
+    <int:aggregator
+            input-channel="loader.channel.postgres"
+            output-channel="loader.channel.postgres.bulk"
+            send-partial-result-on-expiry="true"
+            correlation-strategy-expression="1"
+            release-strategy-expression="size() == 5000"
+            expire-groups-upon-completion="true"
+            group-timeout="1000">
         <int:poller fixed-rate="50" />
+    </int:aggregator>
+
+    <int:channel id="loader.channel.postgres.bulk" />
+
+    <int:outbound-channel-adapter channel="loader.channel.postgres.bulk" method="save">
+        <bean class="com.franglen.service.PostgresDocumentWriter" />
     </int:outbound-channel-adapter>
 
 </beans>
