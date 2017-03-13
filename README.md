@@ -4,82 +4,107 @@ Search Test with Postgres and Elastic Search
 Wikipedia XML
 -------------
 
-This was tested with enwiki-20161020-pages-articles.xml. This is a 56GB dump of every article from the English language Wikipedia.
+This was tested with `enwiki-20161020-pages-articles.xml`. This is a 56GB dump
+of every article from the English language Wikipedia.
 
-Elastic Search
+Docker Compose
 --------------
 
-Elastic Search is run within a docker container that is configured by docker compose.
+Docker Compose is used to run both Elastic Search and Postgres. This means you
+can start and stop both, together.
+
+They save their data in a `data` folder in the root of the project. The files
+created by docker are usually owned by root.
 
 ### Starting
 
 ```
-docker-compose -f elasticsearch/docker-compose.yml up -d
+docker-compose up -d
 ```
+
+The `-d` flag detaches you, which means you don't see the log output.
+
+You can exclude it to see the logs. If you are not detached then pressing
+`ctrl-c` will halt the running containers.
 
 ### Stopping
 
 ```
-docker-compose -f elasticsearch/docker-compose.yml down
+docker-compose down
 ```
 
-### Clearing Containers and Volumes
+### Clearing Containers
 
 ```
-docker-compose -f elasticsearch/docker-compose.yml rm
-docker volume rm elasticsearch_esdata
+docker-compose rm
 ```
+
+Remember that the loaded data is stored in the `data` folder. This can be more
+than 100GB if you load all of wikipedia. Files in it may be owned by root.
 
 ### Problems
 
-The elastic search docker compose configuration may fail to start with the following error:
+The Elastic Search docker compose configuration may fail to start with the
+following error:
 
 ```
 max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
 ```
 
-If that happens then update the system configuration with the following command (linux):
+If that happens then update the system configuration with the following command
+(linux):
 
 ```bash
 sysctl -w vm.max_map_count=262144
 ```
 
-You can find more details in the [elastic search docker compose documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html).
+You can find more details in the
+[Elastic Search docker compose documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html).
 
-Elastic Search Loader
----------------------
+Data Loader
+-----------
 
-This is a script that can load the Wikipedia XML into Elastic Search. This requires the elasticsearch_dsl python module. This was developed for python 3.6.0.
+This is a java application that can load the Wikipedia XML into Elastic Search
+and Postgres. This requires Java 8.
 
 ### Usage
 
-```
-python3 elasticsearch/es-loader.py enwiki-20161020-pages-articles.xml
-```
-
-### Requirements
-
-You can use pyenv and virtualenv to install this in a compartmentalized way.
-
-https://github.com/pyenv/pyenv
+This _does not exit when finished_. If you download
+`enwiki-20161020-pages-articles.xml` then you should have 17,008,269 documents
+in both Elastic Search and Postgres when the load is complete.
 
 ```
-curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+cd pg-es-xml-loader
+./mvnw clean package
+java -jar target/*.jar enwiki-20161020-pages-articles.xml
 ```
 
-You need to make sure that you have something like the following in your bashrc or zshrc:
+This uses maven wrapper to handle downloading maven and all dependencies. If
+you have maven 3 already installed you can just use that.
 
+You can use the following commands to test the number of loaded documents.
+
+For Postgres:
 ```
-export PATH="${HOME}/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+echo "select count(1) as pg_count from postgres_document" | psql -p 5432 -h localhost -U postgres postgres
 ```
 
-Then in a new terminal session you can run:
-
+The output when loading has completed looks like:
 ```
-pyenv install 3.6.0
-pyenv virtualenv 3.6.0 pg-es-venv
-pyenv activate pg-es-venv
-pip install -r elasticsearch/requirements.txt
+ pg_count
+──────────
+ 17008269
+(1 row)
+```
+
+
+For Elastic Search:
+```
+curl 'http://localhost:9200/_cat/indices?v'
+```
+
+The output when loading has completed looks like:
+```
+health status index     pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   wikipedia   5   1   17008269            0     80.3gb         80.3gb
 ```
