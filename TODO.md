@@ -7,7 +7,7 @@ http://speaking.io/
 
 ###  The idea
 
-A comparison of GIN GiST and the core algorithm that elastic search uses.
+A comparison of GIN, GiST and the core algorithm that elastic search uses.
 A way to use elastic search from postgres.
 
 ### Outlining
