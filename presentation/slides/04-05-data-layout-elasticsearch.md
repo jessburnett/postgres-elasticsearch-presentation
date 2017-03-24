@@ -1,3 +1,0 @@
-DATA-LAYOUT-ELASTICSEARCH
-
-??? Lucene ???
