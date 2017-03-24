@@ -1,4 +1,5 @@
-ALGORITHMS-OUTLINE
+# Algorithm Death Match
 
-Postgres has GiST and GIN
-Elastic Search Analysis of various types / Term Frequency - Inverse Document Frequency
+Postgres has Many
+
+Elasticsearch only ONE
