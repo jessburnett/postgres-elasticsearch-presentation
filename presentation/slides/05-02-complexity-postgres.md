@@ -90,18 +90,21 @@ postgres=# create table postgres_document_gist (id varchar(255) primary key, bod
 CREATE TABLE
 Time: 12.023 ms
 
+postgres=# insert into postgres_document_gin select * from postgres_document;
 INSERT 0 17008269
 Time: 8991312.925 ms
+
+insert into postgres_document_gist select * from postgres_document;
 INSERT 0 17008269
 Time: 8721773.457 ms
+
+create index idx_gin on postgres_document_gin using gin (body_tsvector);
 ^CCancel request sent
 ^CCancel request sent
 ERROR:  canceling statement due to user request
 Time: 147382257.256 ms
+
 ^CCancel request sent
 ERROR:  canceling statement due to user request
 Time: 2817.111 ms
-postgres=# insert into postgres_document_gin select * from postgres_document;
-insert into postgres_document_gist select * from postgres_document;
-create index idx_gin on postgres_document_gin using gin (body_tsvector);
 create index idx_gist on postgres_document_gist using gist (body_tsvector);
