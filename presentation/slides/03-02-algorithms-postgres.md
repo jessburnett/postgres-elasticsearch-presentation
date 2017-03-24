@@ -2,6 +2,6 @@
 
 Simple and Slow
 
-vs
+or
 
 Complex and Fast
