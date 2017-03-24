@@ -108,3 +108,25 @@ Time: 147382257.256 ms
 ERROR:  canceling statement due to user request
 Time: 2817.111 ms
 create index idx_gist on postgres_document_gist using gist (body_tsvector);
+
+postgres=# show maintenance_work_mem;
+ maintenance_work_mem
+──────────────────────
+ 64MB
+(1 row)
+
+Time: 1.135 ms
+
+postgres=# set maintenance_work_mem = '1GB';
+SET
+Time: 0.259 ms
+postgres=# show maintenance_work_mem;
+ maintenance_work_mem
+──────────────────────
+ 1GB
+(1 row)
+
+Time: 0.216 ms
+
+postgres=# create index idx_gin on postgres_document_gin using gin (body_tsvector);
+...
