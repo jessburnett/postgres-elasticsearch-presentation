@@ -130,3 +130,14 @@ Time: 0.216 ms
 
 postgres=# create index idx_gin on postgres_document_gin using gin (body_tsvector);
 ...
+
+postgres=# select id, octet_length(body) from postgres_document where body_tsvector is null and octet_length(body) <= 1048575;
+    id    │ octet_length
+──────────┼──────────────
+ 38456420 │       963975
+ 38675580 │       856815
+ 43630307 │      1027898
+ 50127418 │       832042
+(4 rows)
+
+
