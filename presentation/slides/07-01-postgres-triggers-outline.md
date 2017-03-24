@@ -1,1 +1,3 @@
-POSTGRES-TRIGGERS-OUTLINE
+# Keeping in Sync
+
+Use triggers to write to the remote table
