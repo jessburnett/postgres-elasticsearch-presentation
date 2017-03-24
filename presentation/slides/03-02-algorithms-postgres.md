@@ -1,3 +1,6 @@
+Like, I like to search text with Regex
+
+
 ALGORITHMS-POSTGRES
 
 LIKE or ILIKE or regular expressions
