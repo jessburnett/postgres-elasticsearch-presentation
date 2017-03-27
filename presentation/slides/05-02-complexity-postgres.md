@@ -140,4 +140,6 @@ postgres=# select id, octet_length(body) from postgres_document where body_tsvec
  50127418 │       832042
 (4 rows)
 
-
+postgres=# create index idx_gin on postgres_document_gin using gin (body_tsvector);
+CREATE INDEX
+Time: 228704875.253 ms
