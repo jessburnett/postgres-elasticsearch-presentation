@@ -1,10 +1,4 @@
-# Generalized Inverted Index
-
-Only works on tsvector
-
-Slow to build or update
-
-Make sure you increase maintenance_work_mem
+# GIN
 
 Words list the Documents that contain them
 
