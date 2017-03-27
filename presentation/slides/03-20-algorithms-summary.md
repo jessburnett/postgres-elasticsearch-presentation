@@ -1,4 +1,4 @@
-ALGORITHMS-SUMMARY
+# Algorithm Comparison
 
 Postgres provides algorithms that can operate over many datatypes
 Elastic search is all about searching text
