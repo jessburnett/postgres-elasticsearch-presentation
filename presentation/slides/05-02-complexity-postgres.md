@@ -151,11 +151,11 @@ Time: 8286613.247 ms
 0.09591
 
 
-postgres=# select title, ts_rank(body_tsvector, query) as rank from postgres_document_gin, to_tsquery('england') query where query @@ body_tsvector order by rank desc limit 10;                                                        
+postgres=# select title, ts_rank(body_tsvector, query) as rank from postgres_document_gin, to_tsquery('england') query where query @@ body_tsvector order by rank desc limit 10;
 Time: 971726.661 ms
 
 postgres=# select title, ts_rank(body_tsvector, query) as rank from postgres_document_gin, to_tsquery('england') query where query @@ body_tsvector order by rank desc limit 10;
-                      title                       │   rank    
+                      title                       │   rank
 ──────────────────────────────────────────────────┼───────────
  Wikipedia:WikiProject Football/Members           │ 0.0997621
  Andrew Strauss                                   │ 0.0997621
@@ -170,3 +170,21 @@ postgres=# select title, ts_rank(body_tsvector, query) as rank from postgres_doc
 (10 rows)
 
 Time: 945716.201 ms
+
+postgres=# select title, ts_rank(body_tsvector, query) as rank, char_length(body) as body from postgres_document_gin, to_tsquery('england') query where query @@ body_tsvector order by rank desc limit 10;
+                      title                       │   rank    │  body
+──────────────────────────────────────────────────┼───────────┼────────
+ Wikipedia:WikiProject Football/Members           │ 0.0997621 │ 179688
+ Andrew Strauss                                   │ 0.0997621 │ 106882
+ List of churches in London                       │ 0.0997621 │ 245394
+ History of the England national rugby union team │ 0.0997621 │  98377
+ Grade II* listed buildings in South Somerset     │ 0.0997621 │ 167373
+ List of Sheffield Wednesday F.C. players         │ 0.0997621 │  62494
+ Scheduled monuments in Mendip                    │ 0.0997621 │ 261449
+ Eoin Morgan                                      │ 0.0997621 │  67160
+ List of cricket commentators                     │ 0.0997621 │  40397
+ England national rugby union team                │ 0.0997621 │  85524
+(10 rows)
+
+Time: 957441.885 ms
+
