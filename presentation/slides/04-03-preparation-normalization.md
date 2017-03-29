@@ -1,0 +1,3 @@
+# Case Normalization
+
+lowercase everything
