@@ -1,5 +1,3 @@
 # Algorithm Comparison
 
-Postgres provides algorithms that can operate over many datatypes
-Elastic search is all about searching text
-At that one thing elastic search wins (check this ;-) )
+Postgres can index documents in the same way as Elastic Search
