@@ -1,3 +1,5 @@
-# Case Normalization
+# Normalization
 
-lowercase everything
+Case: lowercase everything
+
+Form: Unicode has multiple representations
