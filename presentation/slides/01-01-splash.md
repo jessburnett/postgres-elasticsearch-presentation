@@ -1,3 +1,3 @@
-# Postgres and Elasticsearch
+# Postgres and Elastic Search
 
 Fast Text Search

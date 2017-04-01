@@ -1,6 +1,6 @@
 # Extract Transform Load
 
-Record changes made to postgres
+Record changes made to Postgres
 
 Write them to elastic search
 

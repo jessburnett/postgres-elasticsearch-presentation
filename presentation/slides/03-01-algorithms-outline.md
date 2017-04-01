@@ -4,4 +4,4 @@
 
 Postgres has Many
 
-Elasticsearch only ONE
+Elastic Search only ONE
