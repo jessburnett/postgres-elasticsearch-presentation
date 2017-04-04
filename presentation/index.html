@@ -7,7 +7,7 @@
     <title>Postgres and Elastic Search</title>
 
     <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/theme/solarized.css">
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -20,48 +20,19 @@
       link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
       document.getElementsByTagName( 'head' )[0].appendChild( link );
     </script>
+    <link rel="stylesheet" href="content/style.css">
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
-        <section data-markdown="slides/01-01-splash.md"></section>
-        <section data-markdown="slides/02-01-outline.md"></section>
-        <section data-markdown="slides/03-01-algorithms-outline.md"></section>
-        <section data-markdown="slides/03-02-algorithms-postgres.md"></section>
-        <section data-markdown="slides/03-03-algorithms-like.md"></section>
-        <section data-markdown="slides/03-04-01-algorithms-gin.md"></section>
-        <section data-markdown="slides/03-04-02-algorithms-gin.md"></section>
-        <section data-markdown="slides/03-05-01-algorithms-gist.md"></section>
-        <section data-markdown="slides/03-05-02-algorithms-gist.md"></section>
-        <section data-markdown="slides/03-10-algorithms-elasticsearch.md"></section>
-        <section data-markdown="slides/03-20-algorithms-summary.md"></section>
-        <section data-markdown="slides/04-01-preparation.md"></section>
-        <section data-markdown="slides/04-02-preparation-stemming.md"></section>
-        <section data-markdown="slides/04-03-01-preparation-stop-words.md"></section>
-        <section data-markdown="slides/04-03-02-preparation-stop-words.md"></section>
-        <section data-markdown="slides/04-03-preparation-normalization.md"></section>
-        <section data-markdown="slides/05-01-ranking.md"></section>
-        <section data-markdown="slides/05-02-ranking-field-length-normalization.md"></section>
-        <section data-markdown="slides/05-02-ranking-tfidf.md"></section>
-        <section data-markdown="slides/06-01-complexity-comparison.md"></section>
-        <section data-markdown="slides/06-02-complexity-postgres.md"></section>
-        <section data-markdown="slides/06-03-complexity-elasticsearch.md"></section>
-        <section data-markdown="slides/06-10-complexity-summary.md"></section>
-        <section data-markdown="slides/07-01-postgres-fdw-outline.md"></section>
-        <section data-markdown="slides/07-02-postgres-fdw-details.md"></section>
-        <section data-markdown="slides/07-03-postgres-fdw-elasticsearch.md"></section>
-        <section data-markdown="slides/07-10-postgres-fdw-summary.md"></section>
-        <section data-markdown="slides/08-01-postgres-triggers-outline.md"></section>
-        <section data-markdown="slides/08-02-postgres-triggers-implementation.md"></section>
-        <section data-markdown="slides/08-03-postgres-triggers-transaction-boundary.md"></section>
-        <section data-markdown="slides/08-04-postgres-triggers-writes.md"></section>
-        <section data-markdown="slides/08-10-postgres-triggers-summary.md"></section>
-        <section data-markdown="slides/09-01-postgres-etl-outline.md"></section>
-        <section data-markdown="slides/09-02-postgres-etl-batch-job.md"></section>
-        <section data-markdown="slides/09-03-postgres-etl-kafka.md"></section>
-        <section data-markdown="slides/09-10-postgres-etl-summary.md"></section>
-        <section data-markdown="slides/10-01-repo-shilling.md"></section>
-        <section data-markdown="slides/11-01-summary.md"></section>
+        <section data-markdown="content/slides/010-start.md"></section>
+        <section data-background="content/images/020-please-provide-isbn.png"></section>
+        <section data-markdown="content/slides/020-what-if-no-text-search.md"></section>
+        <section data-markdown="content/slides/030-what-is-text-search.md"></section>
+        <section data-markdown="content/slides/040-how-does-it-work.md"></section>
+        <section data-markdown="content/slides/050-010-what-happens.md"></section>
+        <section data-markdown="content/slides/050-020-normalization.md"></section>
+        <section data-markdown="content/slides/050-030-stemming.md"></section>
       </div>
     </div>
 

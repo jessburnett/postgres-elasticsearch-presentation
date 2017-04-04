@@ -1,0 +1,19 @@
+.text-bright h1,
+.text-bright h2,
+.text-bright h3,
+.text-bright h4,
+.text-bright h5,
+.text-bright h6 {
+    color: #d3d3d3 !important;
+}
+
+.text-border h1,
+.text-border h2,
+.text-border h3,
+.text-border h4,
+.text-border h5,
+.text-border h6 {
+    text-shadow: -2px 0 grey, 0 2px grey, 2px 0 grey, 0 -2px grey;
+}
+
+
