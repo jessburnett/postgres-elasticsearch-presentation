@@ -1,6 +1,1 @@
-<!-- .slide: data-background="content/images/050-020-normal.jpg" -->
-# Text Normalization
-
-Case
-
-Unicode Forms
+<!-- .slide: data-background="content/images/050-030-unicode-normalization.png" -->
