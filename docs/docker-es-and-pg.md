@@ -110,5 +110,5 @@ yellow open   wikipedia   5   1   17008269            0     80.3gb         80.3g
 Next Steps
 ----------
 
-Now you need to load the data. See the instructions [here](docs/load-data.md)
+Now you need to load the data. See the instructions [here](load-data.md)
 
