@@ -54,3 +54,8 @@ The output when loading has completed looks like:
 health status index     pri rep docs.count docs.deleted store.size pri.store.size
 yellow open   wikipedia   5   1   17008269            0     80.3gb         80.3gb
 ```
+
+Next Steps
+----------
+
+Now you need to index the postgres table. See the instructions [here](index-postgres.md)
