@@ -109,6 +109,76 @@ postgres=# select title, ts_rank(body_tsvector, query) as rank from postgres_doc
 Time: 1916397.770 ms
 ```
 
+### FDW
+
+```
+postgres=# select id, title from elasticsearch_document where query = 'body:england' limit 10;
+    id    │                 title
+──────────┼────────────────────────────────────────
+ 4295683  │ England, your england
+ 5541146  │ England, Your England
+ 4940535  │ UK, (England)
+ 6918433  │ English Nation
+ 2592711  │ Anglica
+ 32932397 │ Aenglaland
+ 19895730 │ Category:Transportation in New England
+ 31739155 │ England, United Kingdom
+ 32932409 │ Aengland
+ 26914642 │ Land of the Angles
+(10 rows)
+
+Time: 683.770 ms
+```
+
+### FDW Join
+
+```
+postgres=# select pg.id, pg.title from postgres_document as pg join elasticsearch_document as es on es.id = pg.id where es.query = 'body:england';
+    id    │                 title
+──────────┼────────────────────────────────────────
+ 31739155 │ England, United Kingdom
+ 4295683  │ England, your england
+ 32932409 │ Aengland
+ 19895730 │ Category:Transportation in New England
+ 26914642 │ Land of the Angles
+ 4940535  │ UK, (England)
+ 5541146  │ England, Your England
+ 32932397 │ Aenglaland
+ 6918433  │ English Nation
+ 2592711  │ Anglica
+(10 rows)
+
+Time: 70225.372 ms
+```
+
+### FDW Sub Select
+
+```
+postgres=# select pg.id, pg.title from postgres_document as pg where pg.id in (select id from elasticsearch_document where query = 'body:england');
+    id    │                 title
+──────────┼────────────────────────────────────────
+ 32932397 │ Aenglaland
+ 4295683  │ England, your england
+ 6918433  │ English Nation
+ 2592711  │ Anglica
+ 5541146  │ England, Your England
+ 4940535  │ UK, (England)
+ 31739155 │ England, United Kingdom
+ 26914642 │ Land of the Angles
+ 19895730 │ Category:Transportation in New England
+ 32932409 │ Aengland
+(10 rows)
+
+Time: 244.564 ms
+```
+
+This forces the query to Elastic Search to be done first.
+(Caching of the query to Elastic Search made this even faster?)
+The results are out of order because the score is not available for ordering.
+It only returns 10 even through it has no limit.
+These are all things that need to be fixed in the FDW.
+
+
 ### Indexing
 
 ```
