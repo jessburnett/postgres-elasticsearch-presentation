@@ -16,4 +16,9 @@
     text-shadow: -2px 0 grey, 0 2px grey, 2px 0 grey, 0 -2px grey;
 }
 
-
+html.background-contain div.slide-background.present {
+    background-size: contain;
+}
+html.background-black div.slide-background.present {
+    background-color: #000;
+}
