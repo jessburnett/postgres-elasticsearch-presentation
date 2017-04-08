@@ -4,7 +4,7 @@ RUN apt-get update
 RUN apt-get install --yes           \
     postgresql-9.6-python-multicorn \
     python                          \
-    python-pip \
+    python-pip                      \
     git
 RUN pip install elasticsearch
 RUN git clone https://github.com/matthewfranglen/postgres-elasticsearch-fdw /pg-es-fdw
