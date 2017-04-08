@@ -1,4 +1,4 @@
-<!-- .slide: data-background="content/images/110-020-accept-failure.gif" -->
+<!-- .slide: data-background="content/images/120-020-accept-failure.gif" -->
 
 Note:
 Everything breaks in the end
