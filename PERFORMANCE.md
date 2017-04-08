@@ -178,6 +178,31 @@ The results are out of order because the score is not available for ordering.
 It only returns 10 even through it has no limit.
 These are all things that need to be fixed in the FDW.
 
+### FDW Limit
+
+```
+postgres=# select pg.id, pg.title from postgres_document as pg join elasticsearch_document as es on es.id = pg.id where es.query = 'body:england' limit 10;
+    id    │                 title
+──────────┼────────────────────────────────────────
+ 4295683  │ England, your england
+ 5541146  │ England, Your England
+ 4940535  │ UK, (England)
+ 6918433  │ English Nation
+ 2592711  │ Anglica
+ 32932397 │ Aenglaland
+ 19895730 │ Category:Transportation in New England
+ 31739155 │ England, United Kingdom
+ 32932409 │ Aengland
+ 26914642 │ Land of the Angles
+(10 rows)
+
+Time: 33.456 ms
+```
+
+Caching is really kicking in. This allows it to estimate the es query as being far cheaper.
+
+This is really exposing a few bugs in the FDW. I need to clean it up.
+
 
 ### Indexing
 
