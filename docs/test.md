@@ -41,6 +41,8 @@ echo "SELECT title, ts_rank(body_tsvector, query) AS rank FROM postgres_document
 
 ### Results
 
+Postgres GiST Index: 32 minutes
+
 Postgres GIN Index: 15 minutes 45.7 seconds
 
 Elastic Search: 3.6 seconds

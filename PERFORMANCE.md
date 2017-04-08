@@ -88,6 +88,27 @@ postgres=# select title, ts_rank(body_tsvector, query) as rank, char_length(body
 Time: 957441.885 ms
 ```
 
+### GiST
+
+```
+postgres=# select title, ts_rank(body_tsvector, query) as rank from postgres_document_gist, to_tsquery('england') query where query @@ body_tsvector order by rank desc limit 10;
+                      title                       │   rank
+──────────────────────────────────────────────────┼───────────
+ Wikipedia:WikiProject Football/Members           │ 0.0997621
+ Andrew Strauss                                   │ 0.0997621
+ List of churches in London                       │ 0.0997621
+ History of the England national rugby union team │ 0.0997621
+ Grade II* listed buildings in South Somerset     │ 0.0997621
+ List of Sheffield Wednesday F.C. players         │ 0.0997621
+ Scheduled monuments in Mendip                    │ 0.0997621
+ Eoin Morgan                                      │ 0.0997621
+ List of cricket commentators                     │ 0.0997621
+ England national rugby union team                │ 0.0997621
+(10 rows)
+
+Time: 1916397.770 ms
+```
+
 ### Indexing
 
 ```
