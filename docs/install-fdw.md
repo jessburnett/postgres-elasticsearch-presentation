@@ -48,3 +48,8 @@ OPTIONS
     )
 ;" | psql -p 5432 -h localhost -U postgres postgres
 ```
+
+Next Steps
+----------
+
+Now you can test Postgres and Elastic Search. See the instructions [here](test.md)

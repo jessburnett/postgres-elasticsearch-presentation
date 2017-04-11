@@ -54,3 +54,7 @@ Postgres GIN Index: 15 minutes 45.7 seconds
 Elastic Search: 3.6 seconds
 
 Postgres FDW: 683.8 milliseconds
+
+These results are hardly scientific. Caches, Tuning or any other possible
+change could've resulted in these specific results. It would be interesting to
+know what your results are!

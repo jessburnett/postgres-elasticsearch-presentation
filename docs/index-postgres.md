@@ -68,4 +68,4 @@ echo "CREATE INDEX idx_gist ON postgres_document USING gist (body_tsvector);" | 
 Next Steps
 ----------
 
-Now you can test the two indexes. See the instructions [here](test.md)
+Now you can create the foreign data wrapper to allow Postgres to talk to Elastic Search. See the instructions [here](install-fdw.md)

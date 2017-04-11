@@ -11,6 +11,6 @@ You can try out the techniques in this talk by:
 
  * [Index Postgres](docs/index-postgres.md)
 
- * [Testing them](docs/test.md)
+ * [Create FDW Table](docs/install-fdw.md)
 
- * [Connecting them](https://github.com/matthewfranglen/postgres-elasticsearch-fdw)
+ * [Testing them](docs/test.md)
